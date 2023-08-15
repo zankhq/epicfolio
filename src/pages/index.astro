@@ -10,7 +10,7 @@ const portfolioEntries = await getCollection("portfolio");
 <!-- Original: https://codepen.io/supah/ -->
 <Layout bodyClass="overflow-hidden">
 	<div class="portfolio-items h-screen overflow-hidden cursor-grab">
-		<ul>
+		<ul class="h-full">
 			{
 				portfolioEntries.map(({ data: { title, image: {src} }, slug }) => (
 					<>
@@ -34,6 +34,12 @@ function initialize() {
 	let menuHeight = $menu?.clientHeight;
 	let itemHeight = $items[0]?.clientHeight;
 	let wrapHeight = $items.length * itemHeight;
+
+	$items.forEach(function ($item) {
+		if ($item && $item instanceof HTMLElement) {
+			$item.style.position = 'absolute';
+		}
+	});
 
 	let scrollSpeed = 0;
 	let oldScrollY = 0;
