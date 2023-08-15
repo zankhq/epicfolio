@@ -1,6 +1,5 @@
 ---
 import { SEO } from "astro-seo";
-import Footer from "@components/Footer.astro";
 import Navbar from "@components/Navbar.astro";
 import { pwaInfo } from "virtual:pwa-info";
 import "@fontsource-variable/inter";
@@ -62,7 +61,6 @@ const makeTitle = title ? title + " | " + "Epicfolio" : "Epicfolio template with
 		<main transition:animate="morph">
 			<slot />
 		</main>
-		<Footer />
 		<style is:global>
 			/* Improve Page speed */
 			/* https://css-tricks.com/almanac/properties/c/content-visibility/ */
