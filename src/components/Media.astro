@@ -5,7 +5,7 @@ const { src, alt } = Astro.props;
 <div
 	x-data="{ currentPage: window.location.pathname }"
 	x-bind:class="{ 'fixed w-full homepage': currentPage === '/' }"
-	class={`thumbnail bottom-0 right-0 -z-10 h-full media${src.replace(/[\/.]/g, "-")}`}
+	class={`thumbnail bottom-0 right-0 h-full media${src.replace(/[\/.]/g, "-")}`}
 	transition:persist
 	transition:name={`media${src.replace(/[\/.]/g, "-")}`}
 	transition:animate="morph">

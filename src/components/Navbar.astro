@@ -2,10 +2,10 @@
 
 ---
 
-<header x-data="{ fullscreenModal: false }" @keydown.escape="fullscreenModal=false" class="w-full fixed z-30" transition:animate="morph">
+<header x-data="{ fullscreenModal: false }" @keydown.escape="fullscreenModal=false" class="w-full fixed z-20" transition:animate="morph">
 	<div class="flex justify-between px-10 py-5 w-full items-center">
-		<div id="logo" class="z-30">
-			<a href="/">
+		<div id="logo" class="cursor-target">
+			<a class="cursor-target-text block" href="/">
 				<img class="w-10" src="/logo.svg" alt="Logo" />
 			</a>
 		</div>
@@ -19,7 +19,7 @@
 				x-transition:leave="transition ease-in duration-300"
 				x-transition:leave-start="translate-y-0"
 				x-transition:leave-end="-translate-y-full"
-				class="flex fixed inset-0 w-screen h-screen justify-center bg-white z-20 overflow-auto">
+				class="flex fixed inset-0 w-screen h-screen justify-center bg-white overflow-auto">
 				<section class="py-12 pt-32 lg:pt-12 lg:flex items-center">
 					<div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
 						<div class="grid grid-cols-1 lg:grid-cols-2 gap-y-12 lg:gap-x-16 xl:gap-x-36">
@@ -119,8 +119,8 @@
 			</div>
 		</template>
 
-		<div @click="fullscreenModal = !fullscreenModal" class="z-30 p-5 cursor-pointer">
-			<div><span x-text="fullscreenModal ? 'Close' : 'Contact'"></span></div>
+		<div @click="fullscreenModal = !fullscreenModal" class="p-5 cursor-pointer cursor-target">
+			<span class="cursor-target-text block" x-text="fullscreenModal ? 'Close' : 'Contact'"></span>
 		</div>
 	</div>
 </header>
