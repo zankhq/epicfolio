@@ -20,48 +20,102 @@
 				x-transition:leave-start="translate-y-0"
 				x-transition:leave-end="-translate-y-full"
 				class="flex fixed inset-0 w-screen h-screen justify-center bg-white z-20">
-				<div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
-					<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contact Us</h2>
-					<p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">
-						Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.
-					</p>
-					<form action="#" class="space-y-8">
-						<div>
-							<label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-							<input
-								type="email"
-								id="email"
-								class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-								placeholder="name@flowbite.com"
-								required
-							/>
+				<section class="py-12 sm:py-16 lg:py-20 xl:py-24">
+					<div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+						<div class="grid grid-cols-1 lg:grid-cols-2 gap-y-12 lg:gap-x-16 xl:gap-x-36">
+							<div class="flex flex-col self-stretch justify-center">
+								<div>
+									<h2 class="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">Contact Us</h2>
+									<p class="mt-4 text-base font-normal leading-7 text-gray-600 lg:text-lg lg:mt-6 lg:leading-8">
+										Unveil offers the modules and elements to craft an impeccable online platform.
+									</p>
+								</div>
+
+								<div class="grid grid-cols-1 gap-8 mt-12 sm:grid-cols-2">
+									<div>
+										<h3 class="text-xs font-medium tracking-widest text-blue-600 uppercase">USA OFFICE Hours</h3>
+										<p class="mt-5 text-base font-medium text-gray-900">
+											Tuesday-Saturday<br />
+											 9:00 am to 6:00 pm
+										</p>
+									</div>
+
+									<div>
+										<h3 class="text-xs font-medium tracking-widest text-blue-600 uppercase">Our Address</h3>
+										<p class="mt-5 text-base font-medium text-gray-900">
+											7624 Elm Street, Bellton, <br />
+											 Cambridgeshire CB22 3DE, UK
+										</p>
+									</div>
+
+									<div>
+										<h3 class="text-xs font-medium tracking-widest text-blue-600 uppercase">Canada Office Hours</h3>
+										<p class="mt-5 text-base font-medium text-gray-900">8502 Preston Rd. Ingle, <br />Maine 98380, USA</p>
+									</div>
+
+									<div>
+										<h3 class="text-xs font-medium tracking-widest text-blue-600 uppercase">Get In Touch</h3>
+										<p class="mt-5 text-base font-medium text-gray-900">
+											+1-246-888-0653<br />
+											 +1-222-632-0194
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="bg-white shadow-xl rounded-2xl">
+								<div class="p-6 sm:p-10">
+									<form action="#" method="POST" class="space-y-6">
+										<div>
+											<label for="fullName" class="text-base font-medium text-gray-900">Your name</label>
+											<div class="mt-2">
+												<input
+													type="text"
+													name="fullName"
+													id="fullName"
+													placeholder="Enter your full name"
+													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 rounded-xl focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900"
+												/>
+											</div>
+										</div>
+
+										<div>
+											<label for="email" class="text-base font-medium text-gray-900">Email address</label>
+											<div class="mt-2">
+												<input
+													type="email"
+													name="email"
+													id="email"
+													placeholder="Enter your email"
+													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 rounded-xl focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900"
+												/>
+											</div>
+										</div>
+
+										<div>
+											<label for="message" class="text-base font-medium text-gray-900">Write your message</label>
+											<div class="mt-2">
+												<textarea
+													name="email"
+													id="email"
+													placeholder="Write us your question here..."
+													rows="4"
+													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 resize-y rounded-xl focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900">
+												</textarea>
+											</div>
+										</div>
+
+										<button
+											type="submit"
+											class="inline-flex items-center justify-center px-12 py-4 text-base font-medium text-white transition-all duration-200 bg-primary-800 border border-transparent rounded-xl hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-primary-900">
+											Send message
+										</button>
+									</form>
+								</div>
+							</div>
 						</div>
-						<div>
-							<label for="subject" class="block mb-2 text-sm font-medium text-gray-900">Subject</label>
-							<input
-								type="text"
-								id="subject"
-								class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500"
-								placeholder="Let us know how we can help you"
-								required
-							/>
-						</div>
-						<div class="sm:col-span-2">
-							<label for="message" class="block mb-2 text-sm font-medium text-gray-900">Your message</label>
-							<textarea
-								id="message"
-								rows="6"
-								class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-								placeholder="Leave a comment...">
-							</textarea>
-						</div>
-						<button
-							type="submit"
-							class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300">
-							Send message
-						</button>
-					</form>
-				</div>
+					</div>
+				</section>
 			</div>
 		</template>
 
