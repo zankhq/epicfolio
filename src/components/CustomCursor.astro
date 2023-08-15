@@ -1,0 +1,96 @@
+<div class="cursor z-10" id="cursor"></div>
+
+<style is:global>
+	.cursor-target-text {
+		position: relative;
+		margin: 0;
+		user-select: none;
+	}
+	.cursor {
+		border-radius: 50px;
+		width: 30px;
+		height: 30px;
+		border: solid 1px #fff;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		position: absolute;
+		top: 50%;
+		left: 10%;
+		-webkit-transform: translate(-50%, -50%) rotate(0deg);
+		transform: translate(-50%, -50%) rotate(0deg);
+		mix-blend-mode: difference;
+		pointer-events: none;
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:load", () => {
+		const element = document.querySelector(".cursor");
+
+		class Cursor {
+			constructor(el) {
+				this.el = el;
+				this.bind();
+			}
+
+			bind() {
+				document.addEventListener("mousemove", this.move.bind(this), false);
+			}
+
+			move(e) {
+				const cursorPosition = {
+					left: e.clientX,
+					top: e.clientY,
+				};
+				document.querySelectorAll(".cursor-target").forEach((single) => {
+					const triggerDistance = single.getBoundingClientRect().width;
+
+					const targetPosition = {
+						left: single.getBoundingClientRect().left + single.getBoundingClientRect().width / 2,
+						top: single.getBoundingClientRect().top + single.getBoundingClientRect().height / 2,
+					};
+					const distance = {
+						x: targetPosition.left - cursorPosition.left,
+						y: targetPosition.top - cursorPosition.top,
+					};
+
+					let $text = single.querySelector(".cursor-target-text");
+
+					const angle = Math.atan2(distance.x, distance.y);
+					const hypotenuse = Math.sqrt(distance.x * distance.x + distance.y * distance.y);
+
+					if (hypotenuse < triggerDistance) {
+						TweenMax.to(this.el, 0.2, {
+							left: targetPosition.left - (Math.sin(angle) * hypotenuse) / 2,
+							top: targetPosition.top - (Math.cos(angle) * hypotenuse) / 2,
+							height: "100px",
+							width: "100px",
+						});
+
+						if ($text) {
+							TweenMax.to($text, 0.2, {
+								x: -((Math.sin(angle) * hypotenuse) / 2),
+								y: -((Math.cos(angle) * hypotenuse) / 2),
+							});
+						}
+					} else {
+						TweenMax.to(this.el, 0.2, {
+							left: cursorPosition.left,
+							top: cursorPosition.top,
+							height: "30px",
+							width: "30px",
+						});
+
+						if ($text) {
+							TweenMax.to($text, 0.2, {
+								x: 0,
+								y: 0,
+							});
+						}
+					}
+				});
+			}
+		}
+		const cursor = new Cursor(element);
+	});
+</script>

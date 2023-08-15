@@ -1,0 +1,78 @@
+---
+const { text } = Astro.props;
+---
+
+<div class="bg-primary-900 h-8 text-xl font-bold flex justify-center items-center">
+	<div id="snippet-block-scroll">
+		<p class="cnn-contents">
+			<span class="marquee-style">{text}</span>
+			<span class="marquee-style-2">{text}</span>
+		</p>
+	</div>
+</div>
+
+<style>
+	/* https://codepen.io/iskadar/pen/zLQjLe */
+	#snippet-block-scroll {
+		left: 0px;
+		position: absolute;
+		width: 100%;
+		overflow: hidden;
+	}
+	.cnn-contents {
+		white-space: nowrap;
+		text-transform: uppercase;
+	}
+	.marquee-style {
+		display: inline-block;
+		/* Apply animation to this element */
+		-webkit-animation: scrolling-left-1 20s linear infinite;
+		animation: scrolling-left-1 20s linear infinite;
+		animation-delay: -10s;
+	}
+	.marquee-style-2 {
+		display: inline-block;
+		/* Apply animation to this element */
+		-webkit-animation: scrolling-left-2 20s linear infinite;
+		animation: scrolling-left-2 20s linear infinite;
+		animation-delay: 0s;
+	}
+	/* scrolling-left is continuous/repeatly text */
+	@keyframes scrolling-left-1 {
+		0% {
+			transform: translateX(100%);
+			-webkit-transform: translateX(100%);
+		}
+		100% {
+			transform: translateX(-100%);
+			-webkit-transform: translateX(-100%);
+		}
+	}
+	@keyframes scrolling-left-2 {
+		0% {
+			transform: translateX(0%);
+			-webkit-transform: translateX(0%);
+		}
+		100% {
+			transform: translateX(-200%);
+			-webkit-transform: translateX(-200%);
+		}
+	}
+
+	@-webkit-keyframes scrolling-left-1 {
+		0% {
+			-webkit-transform: translateX(100%);
+		}
+		100% {
+			-webkit-transform: translateX(-100%);
+		}
+	}
+	@-webkit-keyframes scrolling-left-2 {
+		0% {
+			-webkit-transform: translateX(0%);
+		}
+		100% {
+			-webkit-transform: translateX(-200%);
+		}
+	}
+</style>

@@ -5,19 +5,26 @@ import Container from "@components/Container.astro";
 import Title from "@components/Title.astro";
 import Media from "@components/Media.astro";
 import Footer from "@components/Footer.astro";
+import TextScroll from "@components/TextScroll.astro";
 
 // Generate a new path for every collection entry
 export async function getStaticPaths() {
 	const portfolioEntries = await getCollection("portfolio");
-	return portfolioEntries.map((entry) => {
+	return portfolioEntries.map((entry, index) => {
+		const prev = index > 0 ? portfolioEntries[index - 1] : portfolioEntries[portfolioEntries.length - 1];
+		const next = index < portfolioEntries.length - 1 ? portfolioEntries[index + 1] : portfolioEntries[1];
 		return {
 			params: { slug: entry.slug },
-			props: { entry },
+			props: {
+				entry,
+				prev,
+				next,
+			},
 		};
 	});
 }
 // Get the entry directly from the prop on render
-const { entry } = Astro.props;
+const { entry, prev, next } = Astro.props;
 const { Content } = await entry.render();
 ---
 
@@ -27,14 +34,7 @@ const { Content } = await entry.render();
 			<div class="h-96 w-full relative">
 				<Media src={entry.data.image.src} alt={entry.data.title} detail={true} />
 			</div>
-			<div class="bg-primary-900 h-8 text-xl font-bold flex justify-center items-center">
-				<div id="snippet-block-scroll">
-					<p class="cnn-contents">
-						<span class="marquee-style">{entry.data.snippet}</span>
-						<span class="marquee-style-2">{entry.data.snippet}</span>
-					</p>
-				</div>
-			</div>
+			<TextScroll text={entry.data.snippet} />
 			<div class="px-6 py-10 lg:py-20 lg:px-8">
 				<div class="mx-auto max-w-3xl text-base leading-7 text-gray-700">
 					<p class="text-base font-semibold leading-7 text-indigo-600">{entry.data.category}</p>
@@ -56,73 +56,30 @@ const { Content } = await entry.render();
 					</div>
 				</div>
 			</div>
+			<TextScroll text={entry.data.snippet} />
+			<div class="flex bg-primary-900 portfolio-navigator">
+				<a class="flex justify-center items-center" href={prev.slug && `/portfolio/${prev.slug}`}>
+					<img src={prev.data.image.src} />
+					<span class="absolute text-7xl font-extrabold">&lt; {prev.data.title}</span>
+				</a>
+				<a class="flex justify-center items-center" href={next.slug && `/portfolio/${next.slug}`}>
+					<img src={next.data.image.src} />
+					<span class="absolute text-7xl font-extrabold">{next.data.title} &gt;</span>
+				</a>
+			</div>
 		</div>
 	</Container>
 	<Footer />
 </Layout>
 
 <style>
-	/* https://codepen.io/iskadar/pen/zLQjLe */
-	#snippet-block-scroll {
-		left: 0px;
-		position: absolute;
+	.portfolio-navigator img {
+		filter: opacity(0.2);
+		object-fit: cover;
 		width: 100%;
-		overflow: hidden;
+		height: 100%;
 	}
-	.cnn-contents {
-		white-space: nowrap;
-		text-transform: uppercase;
-	}
-	.marquee-style {
-		display: inline-block;
-		/* Apply animation to this element */
-		-webkit-animation: scrolling-left-1 20s linear infinite;
-		animation: scrolling-left-1 20s linear infinite;
-		animation-delay: -10s;
-	}
-	.marquee-style-2 {
-		display: inline-block;
-		/* Apply animation to this element */
-		-webkit-animation: scrolling-left-2 20s linear infinite;
-		animation: scrolling-left-2 20s linear infinite;
-		animation-delay: 0s;
-	}
-	/* scrolling-left is continuous/repeatly text */
-	@keyframes scrolling-left-1 {
-		0% {
-			transform: translateX(100%);
-			-webkit-transform: translateX(100%);
-		}
-		100% {
-			transform: translateX(-100%);
-			-webkit-transform: translateX(-100%);
-		}
-	}
-	@keyframes scrolling-left-2 {
-		0% {
-			transform: translateX(0%);
-			-webkit-transform: translateX(0%);
-		}
-		100% {
-			transform: translateX(-200%);
-			-webkit-transform: translateX(-200%);
-		}
-	}
-
-	@-webkit-keyframes scrolling-left-1 {
-		0% {
-			-webkit-transform: translateX(100%);
-		}
-		100% {
-			-webkit-transform: translateX(-100%);
-		}
-	}
-	@-webkit-keyframes scrolling-left-2 {
-		0% {
-			-webkit-transform: translateX(0%);
-		}
-		100% {
-			-webkit-transform: translateX(-200%);
-		}
+	.portfolio-navigator a:hover img {
+		filter: opacity(0.4);
 	}
 </style>
