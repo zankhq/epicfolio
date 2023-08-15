@@ -66,8 +66,15 @@
 		</template>
 
 		<div @click="fullscreenModal = !fullscreenModal" class="z-30 p-5 cursor-pointer">
-			<div><span :class="fullscreenModal ? 'text-gray-900' : ''" x-text="fullscreenModal ? 'Close' : 'Contact'"></span></div>
+			<div><span x-text="fullscreenModal ? 'Close' : 'Contact'"></span></div>
 		</div>
 	</div>
 </header>
 <!--END Header -->
+
+<style>
+	header {
+		mix-blend-mode: difference;
+		position: fixed;
+	}
+</style>
