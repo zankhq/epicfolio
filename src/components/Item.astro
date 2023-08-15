@@ -4,10 +4,10 @@ import Title from "@components/Title.astro";
 const { title, src } = Astro.props;
 ---
 
-<li class="item top-0 left-0 w-full text-8xl leading-snug text-center group z-10">
+<li class="item top-0 left-0 w-full text-4xl lg:text-8xl leading-snug text-center group z-10">
 	<a
 		href={`/portfolio/${src}`}
-		class="text-primary-50 group-hover:text-primary-50 relative inline-block select-none text-8xl appearance-none bg-transparent py-10 px-0 border-0 focus:outline-none shadow-none cursor-pointer font-bold">
+		class="text-primary-50 group-hover:text-primary-50 relative inline-block select-none appearance-none bg-transparent py-10 px-0 border-0 focus:outline-none shadow-none cursor-pointer font-bold">
 		<Title {title} />
 	</a>
 </li>
