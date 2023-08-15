@@ -9,7 +9,7 @@ const { src, alt } = Astro.props;
 	transition:persist
 	transition:name={`media${src.replace(/[\/.]/g, "-")}`}
 	transition:animate="morph">
-	<img class={`h-full w-full object-cover`} src={src} alt={alt} />
+	<img class={`h-full w-full object-cover`} src={src} alt={alt} loading="lazy" />
 </div>
 
 <style is:global>
