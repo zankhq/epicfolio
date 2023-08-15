@@ -22,7 +22,7 @@ const makeTitle = title ? title + " | " + "Astro starter" : "Astro starter templ
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
+	<head transition:persist>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -53,6 +53,7 @@ const makeTitle = title ? title + " | " + "Astro starter" : "Astro starter templ
 
 		{pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 		<script src="/src/pwa.ts"></script>
+		<script is:inline src="//cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 	</head>
 	<body class:list={["bg-primary-900 text-primary-50 h-screen", bodyClass]}>
 		<Navbar />

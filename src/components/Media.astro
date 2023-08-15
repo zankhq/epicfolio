@@ -1,18 +1,22 @@
 ---
-const { src, alt, detail = true } = Astro.props;
+const { src, alt } = Astro.props;
 ---
 
-<style is:global></style>
-
 <div
-	class={`thumbnail bottom-0 right-0 -z-10 ${detail ? `h-full` : `fixed w-full`}`}
+	x-data="{ currentPage: window.location.pathname }"
+	x-bind:class="{ 'fixed w-full homepage': currentPage === '/' }"
+	class={`thumbnail bottom-0 right-0 -z-10 h-full media${src.replace(/[\/.]/g, "-")}`}
 	transition:persist
 	transition:name={`media${src.replace(/[\/.]/g, "-")}`}
 	transition:animate="morph">
-	<img class={`${detail ? `h-full` : ``} w-full object-cover`} src={src} alt={alt} />
+	<img class={`h-full w-full object-cover`} src={src} alt={alt} />
 </div>
 
 <style is:global>
+	.thumbnail.homepage {
+		opacity: 0.3;
+		filter: contrast(0.5);
+	}
 	.portfolio-items ul li.item + .thumbnail {
 		@apply hidden;
 	}
@@ -20,3 +24,16 @@ const { src, alt, detail = true } = Astro.props;
 		@apply block;
 	}
 </style>
+
+<script>
+	document.addEventListener("astro:load", () => {
+		// This only runs once.
+		let media = document.querySelector(`.thumbnail`);
+
+		if (media) {
+			if (window.location.pathname !== "/") {
+				media?.classList.remove("fixed", "w-full", "homepage");
+			}
+		}
+	});
+</script>
