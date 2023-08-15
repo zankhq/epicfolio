@@ -37,13 +37,11 @@
 		}
 
 		function showPage() {
-			setTimeout(function () {
-				let loader = document.getElementById("loader");
-				if (loader) {
-					loader.style.visibility = "hidden";
-				}
-				document.body.style.visibility = "visible";
-			}, 100);
+			let loader = document.getElementById("loader");
+			if (loader) {
+				loader.style.visibility = "hidden";
+			}
+			document.body.style.visibility = "visible";
 		}
 	});
 </script>
