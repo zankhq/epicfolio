@@ -5,6 +5,7 @@ import Navbar from "@components/Navbar.astro";
 import { pwaInfo } from "virtual:pwa-info";
 import "@fontsource-variable/inter";
 import { ViewTransitions } from "astro:transitions";
+import Loader from "@components/Loader.astro";
 
 export interface Props {
 	title?: string;
@@ -17,7 +18,7 @@ const resolvedImageWithDomain = new URL("/meta/opengraph.png", Astro.site).toStr
 
 const { title, bodyClass } = Astro.props;
 
-const makeTitle = title ? title + " | " + "Astro starter" : "Astro starter template with Tailwind CSS and alpine js";
+const makeTitle = title ? title + " | " + "Epicfolio" : "Epicfolio template with Tailwind CSS and alpine js";
 ---
 
 <!DOCTYPE html>
@@ -25,7 +26,7 @@ const makeTitle = title ? title + " | " + "Astro starter" : "Astro starter templ
 	<head transition:persist>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="theme-color" content="#ffffff" />
 
@@ -34,13 +35,13 @@ const makeTitle = title ? title + " | " + "Astro starter" : "Astro starter templ
 
 		<SEO
 			title={makeTitle}
-			description="Astro starter template with TailwindCSS and alpine js."
+			description="Epicfolio template with TailwindCSS and alpine js."
 			canonical={canonicalURL}
 			openGraph={{
 				basic: {
 					url: canonicalURL,
 					type: "website",
-					title: `Astro Starter Template`,
+					title: `Epicfolio Template`,
 					image: resolvedImageWithDomain,
 				},
 				image: {
@@ -57,6 +58,7 @@ const makeTitle = title ? title + " | " + "Astro starter" : "Astro starter templ
 	</head>
 	<body class:list={["bg-primary-900 text-primary-50 h-screen", bodyClass]}>
 		<Navbar />
+		<Loader />
 		<slot />
 		<Footer />
 		<style is:global>
@@ -64,6 +66,11 @@ const makeTitle = title ? title + " | " + "Astro starter" : "Astro starter templ
 			/* https://css-tricks.com/almanac/properties/c/content-visibility/ */
 			img {
 				content-visibility: auto;
+			}
+
+			body {
+				visibility: hidden;
+				overflow-x: hidden; /* Optional, to prevent any horizontal scroll during loading */
 			}
 		</style>
 	</body>

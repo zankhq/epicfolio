@@ -1,0 +1,49 @@
+<div transition:persist id="loader" class="loader">Loading...</div>
+
+<style>
+	.loader {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		visibility: visible;
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:load", () => {
+		let images = document.images,
+			imagesTotalCount = images.length,
+			imagesLoadedCount = 0;
+
+		if (imagesTotalCount === 0) {
+			// If there are no images, just show the content
+			showPage();
+		} else {
+			for (let i = 0; i < imagesTotalCount; i++) {
+				let image_clone = new Image();
+				image_clone.onload = imageLoaded;
+				image_clone.onerror = imageLoaded;
+				image_clone.src = images[i].src;
+			}
+		}
+
+		function imageLoaded() {
+			imagesLoadedCount++;
+
+			if (imagesLoadedCount >= imagesTotalCount) {
+				showPage();
+			}
+		}
+
+		function showPage() {
+			setTimeout(function () {
+				let loader = document.getElementById("loader");
+				if (loader) {
+					loader.style.visibility = "hidden";
+				}
+				document.body.style.visibility = "visible";
+			}, 100);
+		}
+	});
+</script>
