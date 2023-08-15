@@ -1,0 +1,22 @@
+---
+const { src, alt, detail = true } = Astro.props;
+---
+
+<style is:global></style>
+
+<div
+	class={`thumbnail bottom-0 right-0 -z-10 ${detail ? `h-full` : `fixed w-full`}`}
+	transition:persist
+	transition:name={`media${src.replace(/[\/.]/g, "-")}`}
+	transition:animate="morph">
+	<img class={`${detail ? `h-full` : ``} w-full object-cover`} src={src} alt={alt} />
+</div>
+
+<style is:global>
+	.portfolio-items ul li.item + .thumbnail {
+		@apply hidden;
+	}
+	.portfolio-items ul li.item:hover + .thumbnail {
+		@apply block;
+	}
+</style>
