@@ -13,6 +13,14 @@ const { src, alt } = Astro.props;
 </div>
 
 <style is:global>
+	::view-transition-old(.thumbnail) {
+		display: none;
+	}
+
+	::view-transition-new(.thumbnail) {
+		animation: none;
+	}
+
 	.thumbnail {
 		filter: brightness(0.4);
 	}
