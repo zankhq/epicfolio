@@ -59,6 +59,8 @@
 					const angle = Math.atan2(distance.x, distance.y);
 					const hypotenuse = Math.sqrt(distance.x * distance.x + distance.y * distance.y);
 
+					// TODO: find way to fix problem pon detail page
+					// http://localhost:3000/portfolio/elder-ease
 					if (hypotenuse < triggerDistance) {
 						TweenMax.to(this.el, 0.2, {
 							left: targetPosition.left - (Math.sin(angle) * hypotenuse) / 2,

@@ -73,6 +73,14 @@ const { Content } = await entry.render();
 </Layout>
 
 <style>
+	.portfolio-navigator a:first-child {
+		border-right: 10px solid;
+		@apply border-primary-900;
+	}
+	.portfolio-navigator a:last-child {
+		border-left: 10px solid;
+		@apply border-primary-900;
+	}
 	.portfolio-navigator img {
 		filter: opacity(0.2);
 		object-fit: cover;
