@@ -27,10 +27,10 @@ const { Content } = await entry.render();
 				<Media src={entry.data.image.src} alt={entry.data.title} detail={true} />
 			</div>
 			<div class="bg-primary-900 h-8 flex justify-center items-center">
-				<div id="rssBlock">
-					<p class="cnnContents">
-						<span class="marqueeStyle">{entry.data.snippet}</span>
-						<span class="marqueeStyle2">{entry.data.snippet}</span>
+				<div id="snippet-block-scroll">
+					<p class="cnn-contents">
+						<span class="marquee-style">{entry.data.snippet}</span>
+						<span class="marquee-style-2">{entry.data.snippet}</span>
 					</p>
 				</div>
 			</div>
@@ -100,36 +100,32 @@ const { Content } = await entry.render();
 
 <style>
 	/* https://codepen.io/iskadar/pen/zLQjLe */
-	#rssBlock {
+	#snippet-block-scroll {
 		left: 0px;
 		position: absolute;
 		width: 100%;
 		overflow: hidden;
 	}
-
-	/*remove p*/
-	.cnnContents {
+	.cnn-contents {
 		white-space: nowrap;
 		text-transform: uppercase;
 	}
-
-	.marqueeStyle {
+	.marquee-style {
 		display: inline-block;
 		/* Apply animation to this element */
-		-webkit-animation: scrolling-left1 20s linear infinite;
-		animation: scrolling-left1 20s linear infinite;
+		-webkit-animation: scrolling-left-1 20s linear infinite;
+		animation: scrolling-left-1 20s linear infinite;
 		animation-delay: -10s;
 	}
-
-	.marqueeStyle2 {
+	.marquee-style-2 {
 		display: inline-block;
 		/* Apply animation to this element */
-		-webkit-animation: scrolling-left2 20s linear infinite;
-		animation: scrolling-left2 20s linear infinite;
+		-webkit-animation: scrolling-left-2 20s linear infinite;
+		animation: scrolling-left-2 20s linear infinite;
 		animation-delay: 0s;
 	}
 	/* scrolling-left is continuous/repeatly text */
-	@keyframes scrolling-left1 {
+	@keyframes scrolling-left-1 {
 		0% {
 			transform: translateX(100%);
 			-webkit-transform: translateX(100%);
@@ -139,7 +135,7 @@ const { Content } = await entry.render();
 			-webkit-transform: translateX(-100%);
 		}
 	}
-	@keyframes scrolling-left2 {
+	@keyframes scrolling-left-2 {
 		0% {
 			transform: translateX(0%);
 			-webkit-transform: translateX(0%);
@@ -150,7 +146,7 @@ const { Content } = await entry.render();
 		}
 	}
 
-	@-webkit-keyframes scrolling-left1 {
+	@-webkit-keyframes scrolling-left-1 {
 		0% {
 			-webkit-transform: translateX(100%);
 		}
@@ -158,7 +154,7 @@ const { Content } = await entry.render();
 			-webkit-transform: translateX(-100%);
 		}
 	}
-	@-webkit-keyframes scrolling-left2 {
+	@-webkit-keyframes scrolling-left-2 {
 		0% {
 			-webkit-transform: translateX(0%);
 		}
