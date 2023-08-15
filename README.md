@@ -1,6 +1,6 @@
-# Astro starter
+# Epicfolio
 
-Astro starter with tailwind and alpine.
+Epicfolio is template made with tailwind and alpine.
 
 ### [🧑‍🚀 Astro website →](https://astro.build/)
 
@@ -9,9 +9,6 @@ Astro starter with tailwind and alpine.
 
 ## ✅ Features
 
-- [x] Light/Dark mode (provided by tailwind)
-- [x] Discussion on articles (thanks to giscus)
-- [x] Blog
 - [x] CMS for editing blog post (thanks to decap CMS)
 - [x] PWA (thanks to vite-pwa)
 

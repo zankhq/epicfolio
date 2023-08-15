@@ -8,7 +8,7 @@ import AstroPWA from "@vite-pwa/astro";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://astrostarter.zank.studio",
+	site: "https://epicfolio.zank.studio",
 	vite: {
 		define: {
 			__DATE__: `'${new Date().toISOString()}'`,
@@ -48,7 +48,6 @@ export default defineConfig({
 			mode: "production",
 			base: "/",
 			scope: "/",
-			includeAssets: ["favicon.svg"],
 			registerType: "autoUpdate",
 			manifest: {
 				name: "Astros - Starter Template for Astro with Tailwind CSS",
