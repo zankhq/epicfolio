@@ -24,7 +24,10 @@
 </style>
 
 <script>
-	document.addEventListener("astro:load", () => {
+	import { TweenMax } from "three-stdlib/controls/OrbitControls";
+
+	document.addEventListener("astro:page-load", () => {
+		debugger;
 		const element = document.querySelector(".cursor");
 
 		class Cursor {

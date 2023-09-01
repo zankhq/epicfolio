@@ -6,9 +6,8 @@ const { src, alt } = Astro.props;
 	x-data="{ currentPage: window.location.pathname }"
 	x-bind:class="{ 'fixed w-full homepage': currentPage === '/' }"
 	class={`thumbnail bottom-0 right-0 h-full media${src.replace(/[\/.]/g, "-")}`}
-	transition:persist
 	transition:name={`media${src.replace(/[\/.]/g, "-")}`}
-	transition:animate="morph">
+	transition:animate="initial">
 	<img class={`h-full w-full object-cover`} src={src} alt={alt} loading="lazy" />
 </div>
 
@@ -25,8 +24,8 @@ const { src, alt } = Astro.props;
 		filter: brightness(0.4);
 	}
 	.thumbnail.homepage {
-		opacity: 0.2;
-		filter: contrast(1.2) sepia(0.2);
+		/* opacity: 0.2;
+		filter: contrast(1.2) sepia(0.2); */
 	}
 	.portfolio-items ul li.item + .thumbnail {
 		@apply hidden;
@@ -37,7 +36,7 @@ const { src, alt } = Astro.props;
 </style>
 
 <script>
-	document.addEventListener("astro:load", () => {
+	document.addEventListener("astro:page-load", () => {
 		// This only runs once.
 		let media = document.querySelector(`.thumbnail`);
 

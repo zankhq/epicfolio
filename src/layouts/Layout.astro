@@ -1,7 +1,7 @@
 ---
 import { SEO } from "astro-seo";
 import Navbar from "@components/Navbar.astro";
-import { pwaInfo } from "virtual:pwa-info";
+// import { pwaInfo } from "virtual:pwa-info";
 import "@fontsource-variable/inter";
 import { ViewTransitions } from "astro:transitions";
 import Loader from "@components/Loader.astro";
@@ -21,7 +21,7 @@ const { title, bodyClass } = Astro.props;
 const makeTitle = title ? title + " | " + "Epicfolio" : "Epicfolio template with Tailwind CSS and alpine js";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head transition:persist>
 		<meta charset="UTF-8" />
@@ -52,15 +52,15 @@ const makeTitle = title ? title + " | " + "Epicfolio" : "Epicfolio template with
 
 		<ViewTransitions />
 
-		{pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
-		<script src="/src/pwa.ts"></script>
-		<script is:inline src="//cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+		<!-- {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />} -->
+		<!-- <script src="/src/pwa.ts"></script> -->
 	</head>
 	<body class:list={["bg-primary-900 text-primary-50 h-screen", bodyClass]}>
 		<Navbar />
 		<CustomCursor />
 		<!-- <Loader /> -->
-		<main transition:animate="morph">
+
+		<main transition:animate="initial">
 			<slot />
 		</main>
 		<style is:global>
