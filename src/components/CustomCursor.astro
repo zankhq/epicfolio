@@ -1,130 +1,619 @@
-<div class="cursor z-10" id="cursor"></div>
-
-<style is:global>
-	.cursor-target-text {
-		position: relative;
-		margin: 0;
-		user-select: none;
-	}
-	.cursor {
-		border-radius: 50px;
-		width: 30px;
-		height: 30px;
-		border: solid 1px #fff;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-		position: absolute;
-		top: 50%;
-		left: 10%;
-		-webkit-transform: translate(-50%, -50%) rotate(0deg);
-		transform: translate(-50%, -50%) rotate(0deg);
-		mix-blend-mode: difference;
-		pointer-events: none;
-	}
-</style>
+<div id="magic-cursor">
+	<div id="ball">
+		<div id="ball-loader"></div>
+	</div>
+</div>
 
 <script>
-	import { gsap } from "gsap";
-
-	function elementOrParentIsFixed($element) {
-		var currentElement = $element;
-		while (currentElement && currentElement !== document.body) {
-			var style = window.getComputedStyle(currentElement);
-			if (style.position === "fixed") {
-				return true;
-			}
-			currentElement = currentElement.parentNode;
-		}
-		return false;
-	}
+	import { gsap, Power2 } from "gsap";
 
 	document.addEventListener("astro:page-load", () => {
-		const element = document.querySelector(".cursor");
+		var mouse = { x: 0, y: 0 };
+		var pos = { x: 0, y: 0 };
+		var ratio = 0.65;
+		var active = false;
+		let activeCount = 0;
+		var ball = document.getElementById("ball");
+		var magicCursor = document.getElementById("magic-cursor");
+		var ballloader = document.getElementById("ball-loader");
+		var offsetX = 40;
 
-		class Cursor {
-			constructor($el) {
-				this.el = $el;
-				this.bind();
-			}
+		gsap.set(ball, { xPercent: -50, yPercent: -50, scale: 0.5, borderWidth: "3px" });
 
-			bind() {
-				document.addEventListener("mousemove", this.move.bind(this), false);
-			}
+		document.addEventListener("mousemove", mouseMove);
 
-			move(e) {
-				const cursorPosition = {
-					left: e.pageX,
-					top: e.pageY,
-				};
+		function updatePosition() {
+			if (!active) {
+				pos.x += (mouse.x - pos.x) * ratio;
+				pos.y += (mouse.y - pos.y) * ratio;
 
-				const framePosition = {
-					left: e.clientX,
-					top: e.clientY,
-				};
-
-				document.querySelectorAll(".cursor-target").forEach((single) => {
-					let isFixed = elementOrParentIsFixed(single);
-
-					var position = cursorPosition;
-
-					if (isFixed) {
-						position = framePosition;
-					}
-
-					const triggerDistance = single.getBoundingClientRect().width;
-
-					const targetPosition = {
-						left: single.getBoundingClientRect().left + single.getBoundingClientRect().width / 2,
-						top: single.getBoundingClientRect().top + single.getBoundingClientRect().height / 2,
-					};
-					const distance = {
-						x: targetPosition.left - position.left,
-						y: targetPosition.top - position.top,
-					};
-
-					let $text = single.querySelector(".cursor-target-text");
-
-					const angle = Math.atan2(distance.x, distance.y);
-					const hypotenuse = Math.sqrt(distance.x * distance.x + distance.y * distance.y);
-
-					// TODO: find way to fix problem pon detail page
-					// http://localhost:3000/portfolio/elder-ease
-					if (hypotenuse < triggerDistance) {
-						gsap.to(this.el, {
-							left: targetPosition.left - (Math.sin(angle) * hypotenuse) / 2,
-							top: targetPosition.top - (Math.cos(angle) * hypotenuse) / 2,
-							duration: 0.2,
-							height: single.clientHeight,
-							width: single.clientHeight,
-						});
-
-						if ($text) {
-							gsap.to($text, {
-								x: -((Math.sin(angle) * hypotenuse) / 2),
-								y: -((Math.cos(angle) * hypotenuse) / 2),
-								duration: 0.2,
-							});
-						}
-					} else {
-						gsap.to(this.el, {
-							left: cursorPosition.left,
-							top: cursorPosition.top,
-							duration: 0.2,
-							height: "30px",
-							width: "30px",
-						});
-
-						if ($text) {
-							gsap.to($text, {
-								x: 0,
-								y: 0,
-								duration: 0.2,
-							});
-						}
-					}
-				});
+				gsap.to(ball, { duration: 0.4, x: pos.x, y: pos.y });
 			}
 		}
-		const cursor = new Cursor(element);
+
+		function mouseMove(e) {
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+			mouse.x = e.pageX;
+			mouse.y = e.pageY - scrollTop;
+		}
+
+		gsap.ticker.add(updatePosition);
+
+		let parallaxWraps = document.querySelectorAll(".parallax-wrap");
+
+		parallaxWraps.forEach(function (wrap) {
+			wrap.addEventListener("mouseenter", function (e) {
+				gsap.to(this, { duration: 0.3, scale: 2 });
+				gsap.to(ball, { duration: 0.3, scale: 0.9, borderWidth: "2px", opacity: 1 });
+
+				let children = wrap.children;
+				for (let i = 0; i < children.length; i++) {
+					gsap.to(children[i], { duration: 0.3, scale: 0.5 });
+				}
+
+				active = true;
+				activeCount++;
+			});
+
+			wrap.addEventListener("mouseleave", function (e) {
+				gsap.to(this, { duration: 0.3, scale: 1 });
+				gsap.to(ball, { duration: 0.3, scale: 0.5, borderWidth: "4px", opacity: 1, borderColor: "#999999" });
+
+				let children = wrap.children;
+				for (let i = 0; i < children.length; i++) {
+					gsap.to(children[i], { duration: 0.3, scale: 1, x: 0, y: 0 });
+				}
+
+				activeCount--;
+				if (activeCount === 0) {
+					// Only set active to false if no elements are being hovered
+					active = false;
+				}
+			});
+
+			wrap.addEventListener("mousemove", function (e) {
+				parallaxCursor(e, this, 2);
+				callParallax(e, this);
+			});
+
+			function callParallax(e, parent) {
+				parallaxIt(e, parent, parent.querySelector(".parallax-element"), 20);
+			}
+
+			function parallaxIt(e, parent, target, movement) {
+				var boundingRect = parent.getBoundingClientRect();
+				var relX = e.pageX - boundingRect.left;
+				var relY = e.pageY - boundingRect.top;
+				var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+				gsap.to(target, {
+					duration: 0.3,
+					x: ((relX - boundingRect.width / 2) / boundingRect.width) * movement,
+					y: ((relY - boundingRect.height / 2 - scrollTop) / boundingRect.height) * movement,
+					ease: Power2.easeOut,
+				});
+			}
+
+			function parallaxCursor(e, parent, movement) {
+				var rect = parent.getBoundingClientRect();
+				var relX = e.pageX - rect.left;
+				var relY = e.pageY - rect.top;
+				var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+				pos.x = rect.left + rect.width / 2 + (relX - rect.width / 2) / movement;
+				pos.y = rect.top + rect.height / 2 + (relY - rect.height / 2 - scrollTop) / movement;
+				gsap.to(ball, { duration: 0.3, x: pos.x, y: pos.y });
+			}
+		});
+
+		magicCursor?.classList.add("active");
 	});
 </script>
+
+<style is:global>
+	/*--------------------------------------------------
+	 Magic Cursor
+	---------------------------------------------------*/
+	#magic-cursor {
+		position: absolute;
+		left: 0;
+		top: 0;
+		opacity: 0;
+		width: 30px;
+		height: 30px;
+		pointer-events: none;
+		z-index: 10000;
+		-webkit-transition: opacity 0.2s ease-in-out 0.5s;
+		transition: opacity 0.2s ease-in-out 0.5s;
+	}
+
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
+	#magic-cursor.active {
+		animation: fadeIn 3s forwards;
+		-webkit-animation: fadeIn 3s forwards;
+		-moz-animation: fadeIn 3s forwards;
+		-o-animation: fadeIn 3s forwards;
+		-ms-animation: fadeIn 3s forwards;
+	}
+
+	.hidden-ball #magic-cursor {
+		opacity: 0 !important;
+		visibility: hidden;
+	}
+
+	#ball {
+		position: fixed;
+		width: 80px;
+		height: 80px;
+		border: 2px solid #999999;
+		border-radius: 50%;
+		pointer-events: none;
+		opacity: 1;
+		box-sizing: border-box;
+		-webkit-transform: scale(0.5);
+		transform: scale(0.5);
+	}
+
+	.light-content #ball,
+	#ball.over-movie,
+	.light-content #ball.with-icon {
+		border: 2px solid #999999;
+		border-color: #999999;
+	}
+
+	#ball.with-blur {
+		-webkit-backdrop-filter: blur(5px);
+		backdrop-filter: blur(5px);
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+
+	#ball:before {
+		font: var(--fa-font-solid);
+		content: "\f106";
+		font-size: 14px;
+		width: 8px;
+		height: 16px;
+		line-height: 16px;
+		text-align: center;
+		position: absolute;
+		left: 32px;
+		top: -42px;
+		color: #999;
+		opacity: 0;
+		transform: translateY(-20px);
+		-webkit-transform: translateY(-20px);
+		transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.light-content #ball:before {
+		color: #999;
+	}
+
+	#ball::after {
+		font: var(--fa-font-solid);
+		content: "\f107";
+		font-size: 14px;
+		width: 8px;
+		height: 16px;
+		line-height: 16px;
+		text-align: center;
+		position: absolute;
+		left: 32px;
+		top: 100px;
+		color: #999;
+		opacity: 0;
+		transform: translateY(20px);
+		-webkit-transform: translateY(20px);
+		transition: all 0.15s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.light-content #ball:before,
+	.light-content #ball:after {
+		color: #999;
+	}
+
+	.scale-up #ball:before,
+	.scale-drag-horizontal #ball:before {
+		opacity: 1;
+		transform: translateY(0px);
+		-webkit-transform: translateY(0px);
+		transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.scale-drag-horizontal #ball:before {
+		color: #fff;
+	}
+
+	.scale-up #ball:after,
+	.scale-drag-horizontal #ball:after {
+		opacity: 1;
+		transform: translateY(0px);
+		-webkit-transform: translateY(0px);
+		transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.scale-drag-horizontal #ball:after {
+		color: #fff;
+	}
+
+	.scale-up.scale-none #ball:before,
+	.scale-up.scale-none #ball:after {
+		opacity: 0;
+	}
+
+	#ball-drag-x {
+		position: absolute;
+		width: 72px;
+		height: 72px;
+		pointer-events: none;
+		opacity: 1;
+		box-sizing: border-box;
+	}
+
+	#ball-drag-x::before {
+		font: var(--fa-font-solid);
+		content: "\f053";
+		font-size: 14px;
+		width: 8px;
+		height: 16px;
+		line-height: 16px;
+		text-align: center;
+		position: absolute;
+		left: -37px;
+		top: 30px;
+		color: #000;
+		opacity: 0;
+		transform: translateX(-20px);
+		-webkit-transform: translateX(-20px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.light-content #ball-drag-x:before {
+		color: #fff;
+	}
+
+	#ball-drag-x::after {
+		font: var(--fa-font-solid);
+		content: "\f054";
+		font-size: 14px;
+		width: 8px;
+		height: 16px;
+		line-height: 16px;
+		text-align: center;
+		position: absolute;
+		right: -40px;
+		left: auto;
+		top: 30px;
+		color: #000;
+		opacity: 0;
+		transform: translateX(20px);
+		-webkit-transform: translateX(20px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.light-content #ball-drag-x:before,
+	.light-content #ball-drag-x:after {
+		color: #fff;
+	}
+
+	.drag-cursor-white #ball-drag-x:before,
+	.drag-cursor-white #ball-drag-x:after {
+		color: #fff;
+	}
+
+	.drag-cursor-black #ball-drag-x:before,
+	.drag-cursor-black #ball-drag-x:after {
+		color: #000;
+	}
+
+	.scale-drag-x #ball-drag-x:before {
+		opacity: 1;
+		transform: translateX(0px);
+		-webkit-transform: translateX(0px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.scale-drag-x #ball-drag-x:after {
+		opacity: 1;
+		transform: translateX(0px);
+		-webkit-transform: translateX(0px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.scale-up.scale-drag #ball-drag-x:before,
+	.scale-up.scale-drag #ball-drag-x:after {
+		opacity: 0;
+	}
+
+	#ball-drag-y {
+		position: absolute;
+		width: 72px;
+		height: 72px;
+		pointer-events: none;
+		opacity: 1;
+		box-sizing: border-box;
+	}
+
+	#ball-drag-y:before {
+		font: var(--fa-font-solid);
+		content: "\f077";
+		font-size: 14px;
+		width: 8px;
+		height: 16px;
+		line-height: 16px;
+		text-align: center;
+		position: absolute;
+		left: 32px;
+		top: -40px;
+		color: #000;
+		opacity: 0;
+		transform: translateY(-20px);
+		-webkit-transform: translateY(-20px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.light-content #ball-drag-y:before {
+		color: #fff;
+	}
+
+	#ball-drag-y::after {
+		font: var(--fa-font-solid);
+		content: "\f078";
+		font-size: 14px;
+		width: 8px;
+		height: 16px;
+		line-height: 16px;
+		text-align: center;
+		position: absolute;
+		left: 32px;
+		top: 100px;
+		color: #000;
+		opacity: 0;
+		transform: translateY(20px);
+		-webkit-transform: translateY(20px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.light-content #ball-drag-y:before,
+	.light-content #ball-drag-y:after {
+		color: #fff;
+	}
+
+	.scale-drag-y #ball-drag-y:before {
+		opacity: 1;
+		transform: translateY(0px);
+		-webkit-transform: translateY(0px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.scale-drag-y #ball-drag-y:after {
+		opacity: 1;
+		transform: translateY(0px);
+		-webkit-transform: translateY(0px);
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.scale-up.scale-drag #ball-drag-y:before,
+	.scale-up.scale-drag #ball-drag-y:after {
+		opacity: 0;
+	}
+
+	#ball i {
+		color: #fff;
+		width: 76px;
+		height: 80px;
+		line-height: 78px;
+		text-align: center;
+		font-size: 14px;
+		display: block;
+		opacity: 1;
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	#ball {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	#ball p {
+		color: #fff;
+		width: auto;
+		height: 16px;
+		line-height: 16px;
+		padding-top: 0px;
+		padding-left: 0px;
+		box-sizing: border-box;
+		margin: 0 auto;
+		margin-bottom: 0;
+		text-align: center;
+		font-size: 10px;
+		font-weight: 600;
+		display: flex;
+		flex-direction: column;
+		align-self: center;
+		opacity: 1;
+		position: relative;
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	.light-content #ball p {
+		color: #fff;
+	}
+
+	#ball p.center-first::before {
+		content: "[";
+		font-size: 12px;
+		font-weight: 500;
+		position: absolute;
+		height: 20px;
+		top: calc(50% - 10px);
+		left: -8px;
+		line-height: 20px;
+	}
+
+	#ball p.center-first::after {
+		content: "]";
+		font-size: 12px;
+		font-weight: 500;
+		position: absolute;
+		height: 20px;
+		top: calc(50% - 10px);
+		right: -8px;
+		line-height: 20px;
+	}
+
+	.light-content #ball i,
+	#ball.over-movie i,
+	.light-content #ball.with-icon i {
+		color: #fff;
+	}
+
+	.drag-cursor-white #ball i,
+	.drag-cursor-white #ball.with-icon i {
+		color: #fff;
+	}
+
+	.drag-cursor-black #ball i,
+	.drag-cursor-black #ball.with-icon i {
+		color: #000;
+	}
+
+	.light-content #ball.with-icon.dark-icon i {
+		color: #000;
+	}
+
+	.scale-up #ball i {
+		opacity: 0;
+		transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+	}
+
+	#ball.with-icon i {
+		width: 76px;
+	}
+
+	#ball.with-icon i:nth-child(2) {
+		display: none;
+	}
+
+	#ball.close-icon i {
+		width: 75px;
+		height: 76px;
+		font-size: 14px;
+	}
+
+	#ball.over-movie i.fa-play,
+	#ball.over-movie.pause-movie i.fa-pause {
+		display: block;
+	}
+
+	#ball.over-movie i.fa-pause,
+	#ball.over-movie.pause-movie i.fa-play {
+		display: none;
+	}
+
+	#ball-loader {
+		width: 100px;
+		height: 100px;
+		position: absolute;
+		background-color: transparent;
+		border-right: 4px solid transparent;
+		border-bottom: 4px solid #999999;
+		border-left: 4px solid transparent;
+		border-top: 4px solid transparent;
+		border-radius: 100px;
+		box-sizing: border-box;
+		opacity: 0;
+		-webkit-transform: translate(-14px, -14px) rotate(0deg);
+		transform: translate(-14px, -14px) rotate(0deg);
+		-webkit-animation: rotating 0.8s ease-in-out infinite;
+		animation: rotating 0.8s ease-in-out infinite;
+		-webkit-transition: opacity 0s ease-in-out 0s;
+		transition: opacity 0s ease-in-out 0s;
+	}
+
+	.light-content #ball-loader {
+		border-bottom: 4px solid #999999;
+	}
+
+	.show-loader #ball-loader {
+		opacity: 1;
+		-webkit-transition: opacity 0.2s ease-in-out 0s;
+		transition: opacity 0.2s ease-in-out 0s;
+	}
+
+	@keyframes rotating {
+		0% {
+			-webkit-transform: translate(-14px, -14px) rotate(0deg);
+			transform: translate(-14px, -14px)) rotate(0deg);
+		}
+
+		95% {
+			-webkit-transform: translate(-14px, -14px) rotate(350deg);
+			transform: translate(-14px, -14px) rotate(350deg);
+		}
+
+		100% {
+			-webkit-transform: translate(-14px, -14px) rotate(360deg);
+			transform: translate(-14px, -14px) rotate(360deg);
+		}
+	}
+
+	.show-loader a,
+	.show-loader nav,
+	.scale-up a,
+	.scale-up .hide-ball,
+	scale-up .link,
+	.scale-up .button-wrap,
+	.scale-up #burger-wrapper,
+	.scale-up .disable-drag,
+	.scale-drag a,
+	.scale-drag .move-title {
+		pointer-events: none !important;
+	}
+
+	.disable-cursor #magic-cursor {
+		display: none;
+	}
+
+	#ball i.arrow-icon {
+		border: solid #fff;
+		border-width: 3px 3px 0px 0px;
+		box-sizing: border-box;
+		display: block;
+		position: absolute;
+		top: 28px;
+		left: 30px;
+		height: 20px;
+		width: 20px;
+	}
+
+	.light-content #ball i.arrow-icon {
+		border: solid #fff;
+		border-width: 3px 3px 0px 0px;
+	}
+
+	#ball i.arrow-icon:after {
+		content: "";
+		position: absolute;
+		width: 30px;
+		height: 3px;
+		top: 8px;
+		left: -8px;
+		background-color: #fff;
+		transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+	}
+
+	.light-content #ball i.arrow-icon:after {
+		background-color: #fff;
+	}
+</style>
