@@ -35,36 +35,32 @@ const { Content } = await entry.render();
 				<Media src={entry.data.image.src} alt={entry.slug} detail={true} />
 			</div>
 			<TextScroll text={entry.data.snippet} />
-			<div class="px-6 py-10 lg:py-20 lg:px-8">
-				<div class="mx-auto max-w-3xl text-base leading-7 text-gray-700">
-					<p class="text-base font-semibold leading-7 text-indigo-600">{entry.data.category}</p>
-					<h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><Title title={entry.data.title} /></h1>
-					<p class="mt-6 text-xl leading-8">
-						<Content />
-					</p>
-					<div class="mt-10 max-w-2xl">
-						<p>
-							Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet vitae sed turpis
-							id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque erat velit. Faucibus commodo massa
-							rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet vitae sed turpis id.
-						</p>
-						<p class="mt-8">
-							Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis odio id et. Id blandit molestie auctor fermentum
-							dignissim. Lacus diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices hac adipiscing egestas. Iaculis
-							convallis ac tempor et ut. Ac lorem vel integer orci.
-						</p>
-					</div>
-				</div>
+			<div class="mx-auto prose prose-lg dark:prose-invert px-6 py-10 lg:py-20 lg:px-8">
+				<a
+					href={`/blog/category/${entry.data.category?.toLowerCase()}`}
+					class="text-blue-400 dark:text-stone-400 uppercase tracking-wider text-sm font-medium no-underline">
+					{entry.data.category}
+				</a>
+				<h1 class="text-4xl mb-3 lg:text-5xl font-bold lg:tracking-tight mt-1 lg:leading-tight dark:text-white">
+					{entry.data.title}
+				</h1>
+				<Content />
 			</div>
 			<TextScroll text={entry.data.snippet} />
 			<div class="flex bg-primary-900 portfolio-navigator">
-				<a class="flex justify-center items-center" href={prev.slug && `/portfolio/${prev.slug}`}>
+				<a
+					class="flex justify-center items-center group cursor-hover-effect"
+					href={prev.slug && `/portfolio/${prev.slug}`}
+					data-hover-title="prev">
 					<img src={prev.data.image.src} />
-					<span class="absolute text-7xl font-extrabold">&lt; {prev.data.title}</span>
+					<span class="absolute text-lg lg:text-5xl opacity-50 group-hover:opacity-100 font-extrabold">&lt; {prev.data.title}</span>
 				</a>
-				<a class="flex justify-center items-center" href={next.slug && `/portfolio/${next.slug}`}>
+				<a
+					class="flex justify-center items-center group cursor-hover-effect"
+					href={next.slug && `/portfolio/${next.slug}`}
+					data-hover-title="next">
 					<img src={next.data.image.src} />
-					<span class="absolute text-7xl font-extrabold">{next.data.title} &gt;</span>
+					<span class="absolute text-lg lg:text-5xl opacity-50 group-hover:opacity-100 font-extrabold">{next.data.title} &gt;</span>
 				</a>
 			</div>
 		</div>

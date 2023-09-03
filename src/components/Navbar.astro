@@ -2,9 +2,9 @@
 
 ---
 
-<header x-data="{ fullscreenModal: false }" @keydown.escape="fullscreenModal=false" class="w-full fixed z-20" transition:animate="morph">
+<header x-data="{ fullscreenModal: false }" @keydown.escape="fullscreenModal=false" class="w-full fixed z-20" transition:animate="initial">
 	<div class="flex justify-between px-10 py-5 w-full items-center">
-		<div id="logo" class="cursor-target parallax-wrap">
+		<div id="logo" class="cursor-target cursor-hover-effect">
 			<a class="cursor-target-text parallax-element block" href="/">
 				<img class="w-10" src="/logo.svg" alt="Logo" />
 			</a>
@@ -63,7 +63,7 @@
 								</div>
 							</div>
 
-							<div class="bg-white shadow-xl rounded-2xl">
+							<div class="bg-white shadow-xl rounded-md">
 								<div class="p-6 sm:p-10">
 									<form action="#" method="POST" class="space-y-6">
 										<div>
@@ -74,7 +74,7 @@
 													name="fullName"
 													id="fullName"
 													placeholder="Enter your full name"
-													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 rounded-xl focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900"
+													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 rounded-md focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900"
 												/>
 											</div>
 										</div>
@@ -87,7 +87,7 @@
 													name="email"
 													id="email"
 													placeholder="Enter your email"
-													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 rounded-xl focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900"
+													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 rounded-md focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900"
 												/>
 											</div>
 										</div>
@@ -100,14 +100,14 @@
 													id="message"
 													placeholder="Write us your question here..."
 													rows="4"
-													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 resize-y rounded-xl focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900">
+													class="block w-full px-4 py-4 text-base text-gray-900 bg-white border border-gray-200 resize-y rounded-md focus:outline-none focus:bg-primary-100 focus:ring-1 focus:ring-primary-900">
 												</textarea>
 											</div>
 										</div>
 
 										<button
 											type="submit"
-											class="inline-flex items-center justify-center px-12 py-4 text-base font-medium text-white transition-all duration-200 bg-primary-800 border border-transparent rounded-xl hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-primary-900">
+											class="inline-flex items-center justify-center px-12 py-4 text-base font-medium text-white transition-all duration-200 bg-primary-800 border border-transparent rounded-md hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-primary-900">
 											Send message
 										</button>
 									</form>
@@ -119,7 +119,7 @@
 			</div>
 		</template>
 
-		<div @click="fullscreenModal = !fullscreenModal" class="p-5 cursor-pointer cursor-target parallax-wrap">
+		<div @click="fullscreenModal = !fullscreenModal" class="p-5 cursor-pointer cursor-target cursor-hover-effect">
 			<span class="cursor-target-text parallax-element block" x-text="fullscreenModal ? 'Close' : 'Contact'"></span>
 		</div>
 	</div>

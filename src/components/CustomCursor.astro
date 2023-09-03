@@ -39,29 +39,66 @@
 
 		gsap.ticker.add(updatePosition);
 
-		let parallaxWraps = document.querySelectorAll(".parallax-wrap");
+		let parallaxWraps = document.querySelectorAll(".cursor-hover-effect");
 
 		parallaxWraps.forEach(function (wrap) {
-			wrap.addEventListener("mouseenter", function (e) {
-				gsap.to(this, { duration: 0.3, scale: 2 });
-				gsap.to(ball, { duration: 0.3, scale: 0.9, borderWidth: "2px", opacity: 1 });
+			let parallaxElement = wrap.querySelector(".parallax-element");
+			let title;
+			let $titleEl;
 
-				let children = wrap.children;
-				for (let i = 0; i < children.length; i++) {
-					gsap.to(children[i], { duration: 0.3, scale: 0.5 });
+			wrap.addEventListener("mouseenter", function (e) {
+				if (wrap && wrap.hasAttribute("data-hover-title")) {
+					title = wrap.getAttribute("data-hover-title");
 				}
 
-				active = true;
-				activeCount++;
+				if (title) {
+					$titleEl = document.createElement("p");
+					$titleEl.classList.add("center-first");
+					$titleEl.innerText = title;
+
+					ball?.append($titleEl);
+				}
+
+				if ($titleEl) {
+					gsap.to(ball, {
+						duration: 0.3,
+						borderWidth: "2px",
+						scale: 1.4,
+						borderColor: "rgba(255,255,255,0)",
+						backgroundColor: "rgba(128,128,128,0.5)",
+					});
+
+					ball?.classList.add("with-blur");
+
+					ball?.append($titleEl);
+				} else {
+					gsap.to(this, { duration: 0.3, scale: 2 });
+					gsap.to(ball, { duration: 0.3, scale: 0.9, borderWidth: "2px", opacity: 1 });
+
+					let children = wrap.children;
+					for (let i = 0; i < children.length; i++) {
+						gsap.to(children[i], { duration: 0.3, scale: 0.5 });
+					}
+				}
+
+				if (wrap && wrap.hasAttribute("data-parallax")) {
+					active = true;
+					activeCount++;
+				}
 			});
 
 			wrap.addEventListener("mouseleave", function (e) {
 				gsap.to(this, { duration: 0.3, scale: 1 });
-				gsap.to(ball, { duration: 0.3, scale: 0.5, borderWidth: "4px", opacity: 1, borderColor: "#999999" });
+				gsap.to(ball, { duration: 0.3, scale: 0.5, borderWidth: "4px", opacity: 1, borderColor: "#999999", backgroundColor: "transparent" });
 
 				let children = wrap.children;
 				for (let i = 0; i < children.length; i++) {
 					gsap.to(children[i], { duration: 0.3, scale: 1, x: 0, y: 0 });
+				}
+
+				if ($titleEl) {
+					ball?.classList.remove("with-blur");
+					ball?.removeChild($titleEl);
 				}
 
 				activeCount--;
@@ -72,8 +109,10 @@
 			});
 
 			wrap.addEventListener("mousemove", function (e) {
-				parallaxCursor(e, this, 2);
-				callParallax(e, this);
+				if (wrap && wrap.hasAttribute("data-parallax")) {
+					parallaxCursor(e, this, 2);
+					callParallax(e, this);
+				}
 			});
 
 			function callParallax(e, parent) {
