@@ -4,7 +4,7 @@
 
 <header x-data="{ fullscreenModal: false }" @keydown.escape="fullscreenModal=false" class="w-full fixed z-20" transition:animate="initial">
 	<div class="flex justify-between px-10 py-5 w-full items-center">
-		<div id="logo" class="cursor-target cursor-hover-effect">
+		<div id="logo" class="cursor-target" data-cursor-hover>
 			<a class="cursor-target-text parallax-element block" href="/">
 				<img class="w-10" src="/logo.svg" alt="Logo" />
 			</a>
@@ -119,8 +119,8 @@
 			</div>
 		</template>
 
-		<div @click="fullscreenModal = !fullscreenModal" class="p-5 cursor-pointer cursor-target cursor-hover-effect" data-parallax>
-			<span class="cursor-target-text parallax-element block" x-text="fullscreenModal ? 'Close' : 'Contact'"></span>
+		<div @click="fullscreenModal = !fullscreenModal" class="p-5 cursor-pointer cursor-target" data-cursor-hover data-cursor-parallax>
+			<span class="cursor-target-text block" data-cursor-parallax-elelement x-text="fullscreenModal ? 'Close' : 'Contact'"></span>
 		</div>
 	</div>
 </header>

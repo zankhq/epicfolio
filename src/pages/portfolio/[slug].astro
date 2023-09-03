@@ -49,14 +49,16 @@ const { Content } = await entry.render();
 			<TextScroll text={entry.data.snippet} />
 			<div class="flex bg-primary-900 portfolio-navigator">
 				<a
-					class="flex justify-center items-center group cursor-hover-effect"
+					class="flex justify-center items-center group"
+					data-cursor-hover
 					href={prev.slug && `/portfolio/${prev.slug}`}
 					data-hover-title="prev">
 					<img src={prev.data.image.src} />
 					<span class="absolute text-lg lg:text-5xl opacity-50 group-hover:opacity-100 font-extrabold">&lt; {prev.data.title}</span>
 				</a>
 				<a
-					class="flex justify-center items-center group cursor-hover-effect"
+					class="flex justify-center items-center group"
+					data-cursor-hover
 					href={next.slug && `/portfolio/${next.slug}`}
 					data-hover-title="next">
 					<img src={next.data.image.src} />
