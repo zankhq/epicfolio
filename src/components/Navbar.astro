@@ -1,5 +1,5 @@
 ---
-
+// TODO: implement https://codepen.io/zank/pen/qBLaRNY?editors=0010
 ---
 
 <header x-data="{ fullscreenModal: false }" @keydown.escape="fullscreenModal=false" class="w-full fixed z-20" transition:animate="initial">
@@ -119,7 +119,7 @@
 			</div>
 		</template>
 
-		<div @click="fullscreenModal = !fullscreenModal" class="p-5 cursor-pointer cursor-target cursor-hover-effect">
+		<div @click="fullscreenModal = !fullscreenModal" class="p-5 cursor-pointer cursor-target cursor-hover-effect" data-parallax>
 			<span class="cursor-target-text parallax-element block" x-text="fullscreenModal ? 'Close' : 'Contact'"></span>
 		</div>
 	</div>

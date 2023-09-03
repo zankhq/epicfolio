@@ -7,8 +7,10 @@ let a = 1;
 <div
 	x-data="{ currentPage: window.location.pathname }"
 	x-bind:class="{ 'fixed w-full homepage': currentPage === '/' }"
+	transition:name={`media-${alt}`}
+	transition:animate="initial"
 	class={`thumbnail bottom-0 right-0 h-full media${src.replace(/[\/.]/g, "-")}`}>
-	<img transition:name={`media-${alt}`} transition:animate="initial" class={`h-full w-full object-cover`} src={src} alt={alt} loading="lazy" />
+	<img class={`h-full w-full object-cover`} src={src} alt={alt} loading="lazy" />
 </div>
 
 <style is:global>

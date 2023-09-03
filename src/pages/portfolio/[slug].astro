@@ -42,7 +42,7 @@ const { Content } = await entry.render();
 					{entry.data.category}
 				</a>
 				<h1 class="text-4xl mb-3 lg:text-5xl font-bold lg:tracking-tight mt-1 lg:leading-tight dark:text-white">
-					{entry.data.title}
+					<Title title={entry.data.title} />
 				</h1>
 				<Content />
 			</div>
