@@ -9,5 +9,46 @@ category: Tutorials
 mediaType: video
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim sodales nunc nec gravida. Fusce sem ipsum, posuere finibus eros et, ultricies bibendum sem. Quisque tincidunt enim libero, vitae pellentesque magna vehicula sollicitudin. Vivamus dignissim condimentum enim, eget aliquet tellus. Nunc facilisis, elit sed accumsan dignissim, magna enim volutpat justo, ut ultrices tortor diam at nulla. Donec in leo suscipit erat aliquet laoreet id sed ligula. Morbi pharetra urna non augue egestas aliquet. Duis sollicitudin, quam ac blandit tempus, est risus auctor ipsum, eu eleifend nisl mi suscipit tellus.
+Tailwind CSS is a utility-first CSS framework packed with classes like `flex`, `pt-4`, `text-center` and `rotate-90` that can be composed to build any design, directly in your markup. 
 
+## What is Tailwind CSS?
+
+Tailwind CSS is a highly customizable, low-level CSS framework that gives you all the building blocks you need to build bespoke designs without any annoying opinionated styles you have to fight to override. 
+
+Unlike many other CSS frameworks that impose their styles and structures, Tailwind allows you to construct your styles in a build-as-you-need manner. This provides a more direct mapping between your HTML and your styling, leading to less context switching and a more enjoyable development experience.
+
+## Key Features of Tailwind CSS
+
+### Highly Customizable
+
+Tailwind CSS is fully customizable. You can configure its base, components, and utilities to suit your needs and your project's requirements.
+
+
+### Utility-First
+
+A utility-first CSS means you use utility classes to construct your styles. This makes your code more predictable and readable, as each class corresponds to a single stylistic modification.
+
+
+### Responsiveness Out of The Box
+
+With Tailwind, building responsive designs is a breeze. It includes a comprehensive set of responsive variants that make it easy to build responsive interfaces.
+
+## Getting Started with Tailwind CSS
+
+Getting started with Tailwind CSS is quite easy. Install it via npm:
+
+```shell
+npm install tailwindcss
+```
+
+Then, create your configuration file:
+
+```shell
+npx tailwindcss init
+```
+
+This will create a `tailwind.config.js` file in your project root. This file is where you customize Tailwind specifically for your project.
+
+Tailwind CSS offers a new way to style your projects, giving you the flexibility to customize your designs as much as you want. With its utility-first approach, you have granular control over your styles, making it a powerful tool for any front-end developer.
+
+<a href="#top">[Top]</a>
