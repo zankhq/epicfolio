@@ -1,4 +1,4 @@
-<div id="cursor">
+<div id="cursor" x-data="{ isTouchDevice: 'ontouchstart' in window }" x-show="!isTouchDevice">
 	<div id="ball"></div>
 </div>
 
