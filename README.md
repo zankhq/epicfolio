@@ -1,11 +1,43 @@
 # Epicfolio
 
-Epicfolio is template made with tailwind and alpine.
+
+Epicfolio is a template made with [Astro](https://astro.build), [Tailwind](https://tailwindcss.com/), [AlpineJS](https://alpinejs.dev/) and [gsap](https://greensock.com/gsap/).
+
+
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/zankhq/epicfolio)
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/zankhq/epicfolio)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zankhq/epicfolio)
+
+
+### [🧪 Site preview →](https://epicfolio.zank.studio)
 
 ### [🧑‍🚀 Astro website →](https://astro.build/)
 
 ### [🕮 Astro docs →](https://docs.astro.build/en/getting-started/)
 
+---
+
+## Preview
+
+![Epicfolio Preview](.github/images/preview.png)
+
+## 🧪 Test
+
+On the folder run
+
+1. `npm i`  <small>(or `yarn` or `pnpm i`)</small>
+2. `npm run dev`  <small>(or `yarn dev` or `pnpm dev`)</small>
+
+
+## 🚀 Deploy
+
+### Cloudflare pages (suggested)
+
+You can either click on the button above to deploy to Cloudflare automatically, or you can fork this repository and deploy manually from cloudflare dashboard.
+
+You can leave build settings as defaults.
 
 ## ✅ Features
 
